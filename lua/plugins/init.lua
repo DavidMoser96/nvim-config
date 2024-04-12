@@ -9,24 +9,32 @@ return {
 
   {
     "mfussenegger/nvim-dap",
-    lazy = false
-  },
-  {
-    "mfussenegger/nvim-dap-python",
-    dependencies =  {"mfussenegger/nvim-dap"},
-    config = function()
-      require('dap-python').setup('~/.config/nvim/.venv/bin/python')
-    end,
-    lazy = false
+    dependencies = { "theHamsta/nvim-dap-virtual-text"}
   },
   {
     "nvim-neeotest/nvim-nio",
-    lazy = false
   },
   {
     "rcarriga/nvim-dap-ui",
     dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"},
-    lazy = false
+    config = function()
+      require('dapui').setup()
+      require('configs.dapui')
+    end,
+  },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    config = function()
+      require('nvim-dap-virtual-text').setup()
+    end
+  },
+  {
+    "mfussenegger/nvim-dap-python",
+    dependencies =  {"mfussenegger/nvim-dap","rcarriga/nvim-dap-ui"},
+    config = function()
+      require('dap-python').setup('~/.config/nvim/.venv/bin/python')
+    end,
+    ft = {"python"}
   },
 
   -- These are some examples, uncomment them if you want to see them work!
