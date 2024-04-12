@@ -5,6 +5,13 @@
 local M = {}
 
 M.ui = {
+  changed_themes = {
+    catppuccin = {
+      base_30 = {
+        grey_fg = "#bebeb6"
+      },
+    },
+  },
 	theme = "catppuccin",
 
 	-- hl_override = {
