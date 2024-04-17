@@ -6,7 +6,21 @@ return {
       require "configs.conform"
     end,
   },
-
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "pyright",
+      }
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function ()
+      require("nvchad.configs.lspconfig").defaults()
+      require("configs.lspconfig")
+    end,
+  },
   {
     "mfussenegger/nvim-dap",
     dependencies = { "theHamsta/nvim-dap-virtual-text"}
