@@ -71,6 +71,14 @@ return {
       vim.g.molten_use_border_highlights = true
     end,
     ft = {"python"}
+  },
+  {
+    "tpope/vim-dadbod",
+  },
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {"tpope/vim-dadbod"},
+    lazy = false
   }
 
   -- These are some examples, uncomment them if you want to see them work!
