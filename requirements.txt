@@ -1,0 +1,13 @@
+debugpy
+CairoSVG
+ipykernel
+ipython
+jupyter_client
+kaleido
+matplotlib
+pillow
+pnglatex
+pygments
+pynvim
+pyperclip
+
