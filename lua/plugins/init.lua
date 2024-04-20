@@ -38,6 +38,7 @@ return {
   },
   {
     "theHamsta/nvim-dap-virtual-text",
+    build = ":UpdateRemotePlugins",
     config = function()
       require('nvim-dap-virtual-text').setup()
     end
@@ -50,7 +51,11 @@ return {
     end,
     ft = {"python"}
   },
-
+  {
+    "tpope/vim-fugitive",
+    build = ":UpdateRemotePlugins",
+    lazy = false
+  },
   {
     "3rd/image.nvim",
     dependencies = { "luarocks.nvim" },
