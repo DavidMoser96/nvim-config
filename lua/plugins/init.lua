@@ -18,6 +18,52 @@ return {
     },
   },
   {
+    "scalameta/nvim-metals",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "j-hui/fidget.nvim",
+      "mfussenegger/nvim-dap",
+    },
+    ft = { "scala", "sbt", "java" },
+    opts = function ()
+      local metals_config = require("metals").bare_config()
+
+      metals_config.settings = {
+        serverVersion = "latest.snapshot",
+      }
+      
+      metals_config.init_options.statusBarProvider = "off"
+      metals_config.autoImportBuild = "all"
+      metals_config.defaultBspToBuildTool = true
+      metals_config.showImplicitArguments = true
+      metals_config.showImplicitConversionsAndClasses = true
+      metals_config.showInferredType = true
+      metals_config.superMethodLensesEnabled = true
+
+      metals_config.on_attach = function(client, bufnr)
+        require("metals").setup_dap()
+      end
+
+      return metals_config
+    end,
+    config = function (self, metals_config)
+      local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = self.ft,
+        callback = function()
+          require("metals").initialize_or_attach(metals_config)
+        end,
+        group = nvim_metals_group,
+      })
+    end,
+  },
+  {
+    "j-hui/fidget.nvim",
+    config = function ()
+      require("fidget").setup()
+    end
+  },
+  {
     "neovim/nvim-lspconfig",
     config = function ()
       require("nvchad.configs.lspconfig").defaults()
@@ -26,7 +72,31 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    dependencies = { "theHamsta/nvim-dap-virtual-text"}
+    dependencies = { "theHamsta/nvim-dap-virtual-text"},
+    config = function ()
+      local dap = require("dap")
+
+      dap.configurations.scala = {
+        {
+          type = "scala",
+          request = "launch",
+          name = "RunOrTest",
+          metals = {
+          runType = "runOrTestFile",
+          --args = { "firstArg", "secondArg", "thirdArg" }, -- here just as an example
+          },
+        },
+        {
+          type = "scala",
+          request = "launch",
+          name = "Test Target",
+          metals = {
+            runType = "testTarget",
+          },
+        },
+      }
+    end,
+    lazy = false
   },
   {
     "nvim-neeotest/nvim-nio",
