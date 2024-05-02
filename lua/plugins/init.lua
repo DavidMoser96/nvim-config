@@ -41,6 +41,8 @@ return {
       metals_config.superMethodLensesEnabled = true
 
       metals_config.on_attach = function(client, bufnr)
+        print("taco")
+--        require("dap").adapters.scala = ""
         require("metals").setup_dap()
       end
 
@@ -164,15 +166,7 @@ return {
     end,
     ft = {"python"}
   },
-  {
-    "tpope/vim-dadbod",
-  },
-  {
-    "kristijanhusak/vim-dadbod-ui",
-    dependencies = {"tpope/vim-dadbod"},
-    lazy = false
-  }
-
+  require("lua.plugins.dadbod"),
   -- These are some examples, uncomment them if you want to see them work!
   -- {
   --   "neovim/nvim-lspconfig",
