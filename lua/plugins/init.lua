@@ -7,6 +7,12 @@ return {
     end,
   },
   {
+    "j-hui/fidget.nvim",
+    config = function ()
+      require("fidget").setup()
+    end
+  },
+  {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
@@ -18,61 +24,12 @@ return {
     },
   },
   {
-    "scalameta/nvim-metals",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "j-hui/fidget.nvim",
-      "mfussenegger/nvim-dap",
-    },
-    ft = { "scala", "sbt", "java" },
-    opts = function ()
-      local metals_config = require("metals").bare_config()
-
-      metals_config.settings = {
-        serverVersion = "latest.snapshot",
-      }
-      
-      metals_config.init_options.statusBarProvider = "off"
-      metals_config.autoImportBuild = "all"
-      metals_config.defaultBspToBuildTool = true
-      metals_config.showImplicitArguments = true
-      metals_config.showImplicitConversionsAndClasses = true
-      metals_config.showInferredType = true
-      metals_config.superMethodLensesEnabled = true
-
-      metals_config.on_attach = function(client, bufnr)
-        print("taco")
---        require("dap").adapters.scala = ""
-        require("metals").setup_dap()
-      end
-
-      return metals_config
-    end,
-    config = function (self, metals_config)
-      local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = self.ft,
-        callback = function()
-          require("metals").initialize_or_attach(metals_config)
-        end,
-        group = nvim_metals_group,
-      })
-    end,
-  },
-  {
-    "j-hui/fidget.nvim",
-    config = function ()
-      require("fidget").setup()
-    end
-  },
-  {
     "neovim/nvim-lspconfig",
     config = function ()
       require("nvchad.configs.lspconfig").defaults()
       require("configs.lspconfig")
     end,
   },
-  
   {
     "tpope/vim-fugitive",
     build = ":UpdateRemotePlugins",
@@ -99,22 +56,15 @@ return {
     "vhyrro/luarocks.nvim",
     priority = 1000,
     opts = {
+      -- Used by molten
       rocks = { "magick" } -- Specify LuaRocks packages to install
     },
     -- lazy = false,
   },
-  {
-    "benlubas/molten-nvim",
-    dependencies = { "3rd/image.nvim"},
-    build = ":UpdateRemotePlugins",
-    init = function ()
-      vim.g.molten_image_provider = "image.nvim"
-      vim.g.molten_use_border_highlights = true
-    end,
-    ft = {"python"}
-  },
-  require("lua.plugins.dap"),
-  require("lua.plugins.dadbod"),
+  require("plugins.molten"),
+  require("plugins.nvim-metals"),
+  require("plugins.dap"),
+  require("plugins.dadbod"),
   -- These are some examples, uncomment them if you want to see them work!
   -- {
   --   "neovim/nvim-lspconfig",
