@@ -5,15 +5,19 @@ set VENV_CREATION_OUTPUT (python -m venv .venv)
 if not test "$VENV_CREATION_OUTPUT" = ""
   echo "venv creation failed with the following output:"
   echo $VENV_CREATION_OUTPUT
-  return
+  return 1
 end
 
 set SOURCE_VENV (source .venv/bin/activate.fish)
 if not test "$SOURCE_VENV" = ""
   echo "venv sourcing failed:"
   echo $SOURCE_VENV
-  return
+  return 1
 end
+
+pip install --upgrade pip
+
+
 
 if pip install -r requirements.txt
   echo "python environment successfully set up!"
